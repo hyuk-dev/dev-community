@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Comment } from "src/comment/comment.entity";
+import { Post } from "src/post/post.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class User {
@@ -18,5 +20,10 @@ export class User {
   created_at: Date;
 
   // Post와 1:N 관계 설정
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
+
   // Comment와 1:N 관계 설정
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }
