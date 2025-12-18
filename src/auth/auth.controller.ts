@@ -104,7 +104,7 @@ export class AuthController {
       secure,
       sameSite,
       domain,
-      path: '/auth/refresh', // refresh 요청에만 쿠키가 가도록 제한
+      path: '/auth', // refresh 요청에만 쿠키가 가도록 제한
     });
   }
 
@@ -112,6 +112,6 @@ export class AuthController {
     const cookieName = this.configService.getOrThrow<string>(
       'COOKIE_REFRESH_NAME',
     );
-    res.clearCookie(cookieName, { path: '/auth/refresh' });
+    res.clearCookie(cookieName, { path: '/auth' });
   }
 }

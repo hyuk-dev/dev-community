@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -8,12 +9,15 @@ import { Comment } from './comment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { Post } from 'src/post/post.entity';
 
 @Injectable()
 export class CommentService {
   constructor(
     @InjectRepository(Comment)
     private readonly commentRepository: Repository<Comment>,
+    @InjectRepository(Post)
+    private readonly postRepository: Repository<Post>,
   ) {}
 
   async find(postId: number) {
@@ -27,6 +31,9 @@ export class CommentService {
   }
 
   async create(postId: number, dto: CreateCommentDto, userId: number) {
+    const post = this.postRepository.find({ where: { id: postId } });
+    if (!post) throw new NotFoundException('게시글을 찾을 수 없습니다.');
+    
     const newComment = this.commentRepository.create({
       user: {
         id: userId,

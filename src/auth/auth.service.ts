@@ -64,7 +64,7 @@ export class AuthService {
     const expiresIn = this.configService.getOrThrow<string>(
       'JWT_REFRESH_EXPIRES_IN',
     ) as JwtSignOptions['expiresIn'];
-    return this.jwtService.sign({ sub: userId }, { secret, expiresIn });
+    return this.jwtService.sign({ sub: userId, email }, { secret, expiresIn });
   }
 
   // RefreshToken 검증
