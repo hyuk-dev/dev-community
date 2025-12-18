@@ -22,11 +22,25 @@ export class UserService {
     const user = this.userRepository.create({
       email,
       password: hashedPassword,
-      username
+      username,
     });
-    this.userRepository.save(user);
+    await this.userRepository.save(user);
 
     const { password: userPassword, ...safeUser } = user;
     return safeUser;
+  }
+
+  // 유저 정보 상세 조회
+  async getUser(email: string) {
+    return this.userRepository.findOne({
+      where: {
+        email,
+      },
+      select: {
+        username: true,
+        email: true,
+        created_at: true,
+      },
+    });
   }
 }

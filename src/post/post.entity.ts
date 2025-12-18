@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Comment } from 'src/comment/comment.entity';
 import { PostCategory, PostStatus } from 'src/common/enums';
 import { User } from 'src/user/user.entity';
@@ -9,6 +10,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 
 @Entity('posts')
@@ -35,9 +37,12 @@ export class Post {
   tags?: string[];
 
   // User랑 N:1 관계
-  @ManyToOne(() => User, (user) => user.posts)
+  @ManyToOne(() => User, (user) => user.posts, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @RelationId((post: Post) => post.user)
+  userId: number;
 
   // Comment랑 1:N 관계
   @OneToMany(() => Comment, (comment) => comment.post)

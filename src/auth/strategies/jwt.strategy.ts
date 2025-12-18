@@ -5,6 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  // configService가 사용되지 않은 것처럼 보이는 건 VScode 인텔리센스의 한계
   constructor(private readonly configService: ConfigService) {
     super({
       // Authorization 헤더에서 Bearer 토큰 추출
