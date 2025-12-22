@@ -8,6 +8,7 @@ import { CommentModule } from './comment/comment.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './common/db.config';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { databaseConfig } from './common/db.config';
     PostModule,
     CommentModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule {}
